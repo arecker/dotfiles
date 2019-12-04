@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
 
+set -e
+
 log() {
     echo "bootstrap.sh: $1"
+}
+
+maybe_clone() {
+    if [ -d "$2" ]; then
+	log "$1 already cloned to $2"
+    else
+	log "cloning $2"
+	git clone "git@github.com:$1" "$2"
+    fi
 }
 
 log "running bootstrap as $(whoami) on $(hostname)"
@@ -132,10 +143,14 @@ EOF
 
 chmod 600 "$HOME/.ssh/id_rsa"
 
-if [ ! -d "$HOME/src/dotfiles" ]; then
-    log "cloning dotfiles"
-    mkdir -p "$HOME/src"
-    git clone "git@github.com:arecker/dotfiles.git" "$HOME/src/dotfiles"
-else
-    log "dotfiles already cloned"
-fi
+log "creating src directory"
+mkdir -p "$HOME/src"
+
+maybe_clone "arecker/password-store.git" "$HOME/.password-store"
+maybe_clone "arecker/dotfiles.git" "$HOME/src/dotfiles"
+maybe_clone "arecker/emacs.d.git" "$HOME/.emacs.d"
+
+log "creating symlinks"
+cd "$HOME/src/dotfiles/" && make stow
+
+log "done!"
