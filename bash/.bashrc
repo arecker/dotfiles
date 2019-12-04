@@ -1,3 +1,7 @@
+# history
+export HISTSIZE="500"
+export HISTFILE="$HOME/.bash_history"
+
 export EDITOR="nano"
 export PS1="\u@\h:\w\$ "
 
