@@ -146,11 +146,29 @@ chmod 600 "$HOME/.ssh/id_rsa"
 log "creating src directory"
 mkdir -p "$HOME/src"
 
+log "cloning repos"
 maybe_clone "arecker/password-store.git" "$HOME/.password-store"
 maybe_clone "arecker/dotfiles.git" "$HOME/src/dotfiles"
 maybe_clone "arecker/emacs.d.git" "$HOME/.emacs.d"
+maybe_clone "arecker/blog.git" "$HOME/src/blog"
+maybe_clone "arecker/infra.git" "$HOME/src/infra"
+maybe_clone "pyenv/pyenv.git" "$HOME/.pyenv"
+mkdir -p "$HOME/.pyenv/plugins/"
+for pyenv_plugin in doctor installer update virtualenv which-ext; do
+    maybe_clone "pyenv/pyenv-${pyenv_plugin}.git" "$HOME/.pyenv/plugins/pyenv-${pyenv_plugin}"
+done
+maybe_clone "rbenv/rbenv.git" "$HOME/.rbenv"
+mkdir -p "$HOME/.rbenv/cache"
+maybe_clone "rbenv/ruby-build.git" "$HOME/.rbenv/plugins/ruby-build"
+maybe_clone "syndbg/goenv.git" "$HOME/.goenv"
+maybe_clone "nodenv/nodenv.git" "$HOME/.nodenv/"
+mkdir -p ".nodenv/plugins"
+maybe_clone "nodenv/node-build.git" "$HOME/.nodenv/plugins/node-build"
 
 log "creating symlinks"
 cd "$HOME/src/dotfiles/" && make stow
+
+log "bootstrapping quicklisp"
+"$HOME/bin/bootstrap-quicklisp.sh"
 
 log "done!"

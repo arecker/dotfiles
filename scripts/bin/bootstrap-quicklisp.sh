@@ -6,6 +6,11 @@ log() {
     echo "bootstrap-quicklisp.sh: $1"
 }
 
+if [ -d "$HOME/.quicklisp" ]; then
+    log "~/.quicklisp already exists, nothing to do!"
+    exit
+fi
+
 log "downloading quicklisp library"
 curl -s -o /tmp/quicklisp.lisp https://beta.quicklisp.org/quicklisp.lisp
 
