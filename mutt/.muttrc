@@ -15,12 +15,7 @@ set ssl_force_tls = yes
 bind index f imap-fetch-mail
 set charset = "utf-8"
 set record = ''
-macro index,pager y "<save-message>=[Gmail]/All Mail<enter><enter>" "Archive"
 set signature="$HOME/.emacs.d/signatures/work.txt"
 set record = "+[Gmail]/Sent Mail"
 set postponed = "+[Gmail]/Drafts"
 set mbox="imaps://imap.gmail.com/[Gmail]/All Mail"
-macro index gi "<change-folder>=INBOX<enter>" "Go to inbox"
-macro index ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to all mail"
-macro index gs "<change-folder>=[Gmail]/Starred<enter>" "Go to starred messages"
-macro index gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to drafts"
