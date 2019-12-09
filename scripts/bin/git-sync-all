@@ -19,6 +19,7 @@ $HOME/Documents
 $HOME/docs
 $HOME/src/blog 
 $HOME/src/dotfiles
+$HOME/src/infra
 EOF
 )"
 
