@@ -1,5 +1,4 @@
 set editor=emacsclient
-set pager=emacsclient
 set realname = "Alex Recker"
 set from = "arecker@zendesk.com"
 set use_from = yes
