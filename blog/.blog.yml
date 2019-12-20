@@ -1,5 +1,5 @@
 ---
-journal_path: ~/docs/journal.org
+journal_path: ~/Documents/journal.org
 stats_path: ~/src/blog/_data/stats.json
 posts_dir: ~/src/blog/_posts/
 blog_repo: ~/src/blog
