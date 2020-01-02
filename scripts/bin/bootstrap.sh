@@ -162,7 +162,7 @@ mkdir -p "$HOME/.rbenv/cache"
 maybe_clone "rbenv/ruby-build.git" "$HOME/.rbenv/plugins/ruby-build"
 maybe_clone "syndbg/goenv.git" "$HOME/.goenv"
 maybe_clone "nodenv/nodenv.git" "$HOME/.nodenv/"
-mkdir -p ".nodenv/plugins"
+mkdir -p "$HOME/.nodenv/plugins"
 maybe_clone "nodenv/node-build.git" "$HOME/.nodenv/plugins/node-build"
 
 log "creating symlinks"
