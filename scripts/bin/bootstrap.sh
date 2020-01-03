@@ -146,9 +146,6 @@ chmod 600 "$HOME/.ssh/id_rsa"
 log "creating src directory"
 mkdir -p "$HOME/src"
 
-log "creating bin directory"
-mkdir -p "$HOME/bin"
-
 log "cloning repos"
 maybe_clone "arecker/password-store.git" "$HOME/.password-store"
 maybe_clone "arecker/dotfiles.git" "$HOME/src/dotfiles"
