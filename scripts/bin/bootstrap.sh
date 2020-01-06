@@ -164,6 +164,7 @@ maybe_clone "syndbg/goenv.git" "$HOME/.goenv"
 maybe_clone "nodenv/nodenv.git" "$HOME/.nodenv/"
 mkdir -p "$HOME/.nodenv/plugins"
 maybe_clone "nodenv/node-build.git" "$HOME/.nodenv/plugins/node-build"
+maybe_clone "syndbg/goenv.git" "$HOME/.goenv"
 
 log "creating symlinks"
 cd "$HOME/src/dotfiles/" && make stow
