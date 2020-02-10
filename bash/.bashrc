@@ -39,16 +39,6 @@ if [ -d "$HOME/.tfenv/bin" ]; then
     export PATH="$HOME/.tfenv/bin:$PATH"
 fi
 
-# goenv
-if [ -d "$HOME/.goenv" ]; then
-    export GOENV_ROOT="$HOME/.goenv"
-    export GOENV_GOPATH_PREFIX="$HOME/src/go"
-    export PATH="$GOENV_ROOT/bin:$PATH"
-    eval "$(goenv init -)"
-    export PATH="$GOROOT/bin:$PATH"
-    export PATH="$PATH:$GOPATH/bin"
-fi
-
 # ssh
 ssh-add -K ~/.ssh/personal 2>/dev/null
 if [ -f "$HOME/.ssh/work/id_rsa" ]; then
