@@ -51,6 +51,12 @@ if [ -d "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/" ]; then
     . /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc
 fi
 
+# GOLANG
+if [ -d "$HOME/go/bin/" ]; then
+    export PATH="$HOME/go/bin:$PATH"
+fi
+
+
 # hack for openvpn installed by homebrew
 if [ "$(uname)" == "Darwin" ]; then
     export PATH="/usr/local/sbin:$PATH"
