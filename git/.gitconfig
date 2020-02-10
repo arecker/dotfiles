@@ -7,5 +7,9 @@
 
 [includeIf "gitdir:~/src/work/"]
   path = .gitconfig-work
+
+[includeIf "gitdir:~/go/src/github.com/zendesk/"]
+  path = .gitconfig-work
+
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
