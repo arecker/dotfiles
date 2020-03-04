@@ -2,10 +2,4 @@
 
 cd ~/src/blog || exit 1
 
-if [ "$(uname)" == "Darwin" ]; then
-    journal_path="~/Documents/journal.org"
-else
-    journal_path="~/docs/journal.org"
-fi
-
-bundle exec bin/blog "$@" --journal "$journal_path"
+bundle exec bin/blog "$@"
