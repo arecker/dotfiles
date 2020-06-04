@@ -5,6 +5,15 @@ export HISTFILE="$HOME/.bash_history"
 export EDITOR="nano"
 export PS1="\u@\h:\w\$ "
 
+# functions
+docs_path() {
+    if [ "$(uname)" == "Darwin" ]; then
+	echo "$HOME/Documents"
+    else
+	echo "$HOME/docs"
+    fi
+}
+
 # aliases
 alias be="bundle exec"
 alias wallpaper="~/src/wallpaper/wallpaper"
@@ -63,4 +72,8 @@ if [ "$(uname)" == "Darwin" ]; then
     export PATH="/usr/local/sbin:$PATH"
 fi
 
+# kubernetes
+export KUBECONFIG="$(docs_path)/configs/kube.yml"
+
+# local bin
 export PATH="$HOME/bin:$PATH"
