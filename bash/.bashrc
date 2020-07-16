@@ -14,6 +14,10 @@ docs_path() {
     fi
 }
 
+is_mac() {
+    [[ "$(uname)" == "Darwin" ]]
+}
+
 # aliases
 alias be="bundle exec"
 alias wallpaper="~/src/wallpaper/wallpaper"
@@ -62,10 +66,9 @@ if [ -d "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/" ]; then
 fi
 
 # GOLANG
-if [ -d "$HOME/go/bin/" ]; then
-    export PATH="$HOME/go/bin:$PATH"
-fi
-
+export GOROOT="/usr/local/go"
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
 
 # hack for openvpn installed by homebrew
 if [ "$(uname)" == "Darwin" ]; then
