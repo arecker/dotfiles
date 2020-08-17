@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cd ~/src/blog/rnd || exit 1
+
+python -m blog "$@"
