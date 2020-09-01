@@ -2,7 +2,12 @@
 # frozen_string_literal: true
 
 def extract_repo(url)
-  match = %r{^git@github.com:zendesk\/(?<repo>.*?).git$}.match(url)
+  pattern = %r{^(git@github.com:)?(zendesk\/)?(?<repo>.*?)(\.git)?$}
+  match = pattern.match(url)
+  if match.nil?
+    puts "could not extract repo from #{url}"
+    exit 1
+  end
   match['repo']
 end
 
