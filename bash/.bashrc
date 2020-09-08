@@ -19,6 +19,7 @@ is_mac() {
 }
 
 # aliases
+alias blog='PYTHONPATH="$HOME/src/blog" python -m src'
 alias be="bundle exec"
 alias wallpaper="~/src/wallpaper/wallpaper"
 alias aws-whoami="aws sts get-caller-identity | jq -r '.Arn'"
