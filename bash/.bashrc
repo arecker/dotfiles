@@ -5,6 +5,9 @@ export HISTFILE="$HOME/.bash_history"
 export EDITOR="nano"
 export PS1="\u@\h:\w\$ "
 
+# Fuck you, apple.
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 # functions
 docs_path() {
     if [ "$(uname)" == "Darwin" ]; then
