@@ -20,6 +20,7 @@
 (recker/load "pass")
 (recker/load "org")
 (recker/load "writing")
+(recker/load "gnus")
 (recker/load "local")
 
 (setq tetris-score-file (recker/path 'docs "emacs/tetris-scores"))
