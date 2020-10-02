@@ -30,6 +30,7 @@ if [ "$(uname)" != "Darwin" ]; then
     alias ls="ls --color"
 else
     alias quickkill='kill -9 $(pgrep -i "Quicktime")'
+    alias make='gmake'
 fi
 
 # pyenv
