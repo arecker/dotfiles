@@ -50,7 +50,8 @@
 (use-package emmet-mode
   :ensure t
   :defer t
-  :config (add-hook 'web-mode-hook 'emmet-mode))
+  :init (setq emmet-preview-default nil)
+  :config (add-hook 'sgml-mode-hook 'emmet-mode))
 
 (setq js-indent-level 2)
 
