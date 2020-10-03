@@ -17,7 +17,7 @@ except ImportError:
     sys.exit(1)
 
 
-def read_webhook_url(path='slack/reckerfamily/webhook'):
+def read_webhook_url(path='slack/reckers/webhook'):
     log('reading webhook from {}', path)
     cmd = 'pass {}'.format(path).split(' ')
     output = subprocess.check_output(cmd)
