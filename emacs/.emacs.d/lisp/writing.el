@@ -18,3 +18,7 @@
 (setq ispell-program-name (executable-find "ispell"))
 
 (use-package dictionary :ensure t)
+
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+
+(add-hook 'text-mode-hook #'(lambda () (flyspell-mode t)))
