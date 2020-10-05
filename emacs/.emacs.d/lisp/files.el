@@ -28,6 +28,7 @@
 (set-register ?f '(file . "/ssh:alex@archive.local:/mnt/"))
 (set-register ?l `(file . ,(recker/path 'emacs "local.el")))
 (set-register ?m `(file . ,(recker/path 'docs "mixtape.org")))
+(set-register ?n '(file . "/ssh:alex@nas.local:/volume1/homes/alex/"))
 (set-register ?o `(file . ,(recker/path 'docs "opsat.org")))
 
 ;; bookmarks
