@@ -36,10 +36,10 @@
 (setq bookmark-save-flag 1
       bookmark-default-file (recker/path 'docs "emacs/bookmarks.el"))
 
-(defun recker/ido-bookmark-jump (bname)
-  "*Switch to bookmark interactively using `ido'."
+(defun recker/ido-bookmark-jump (bookmark)
+  "*Switch to bookmark BOOKMARK interactively using `ido'."
   (interactive (list (ido-completing-read "Bookmark: " (bookmark-all-names) nil t)))
-  (bookmark-jump bname))
+  (bookmark-jump bookmark))
 
 (global-set-key (kbd "C-x r b") 'recker/ido-bookmark-jump)
 
@@ -53,5 +53,7 @@
 
 (use-package projectile
   :ensure t
-  :config (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (setq projectile-completion-system 'ivy)
   :init (projectile-mode t))
