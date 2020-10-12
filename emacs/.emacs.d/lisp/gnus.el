@@ -42,3 +42,5 @@
       send-mail-function 'smtpmail-send-it)
 
 (add-to-list 'auth-sources (recker/path 'docs "emacs/authinfo.gpg"))
+
+(setq mail-signature-file "~/.signature")
