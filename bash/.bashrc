@@ -31,6 +31,7 @@ if [ "$(uname)" != "Darwin" ]; then
 else
     alias quickkill='kill -9 $(pgrep -i "Quicktime")'
     alias make='gmake'
+    alias sed='gsed'
 fi
 
 # pyenv
