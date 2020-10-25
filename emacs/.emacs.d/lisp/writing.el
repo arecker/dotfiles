@@ -22,3 +22,18 @@
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 (add-hook 'text-mode-hook #'(lambda () (flyspell-mode t)))
+
+(defun recker/insert-figure (filename caption)
+  "Insert an HTML figure and caption."
+  (interactive "sFilename: 
+sCaption: ")
+  (message "%s" caption)
+  (let* ((src (format "/images/%s" filename))
+	 (alt filename)
+	 (img (format "<a href=\"%s\">\n<img alt=\"%s\" src=\"%s\"/>\n</a>" src alt src))
+	 (figcaption (if (not (string-equal caption ""))
+			 (format "<figcaption>\n<p>%s</p>\n</figcaption>" caption))))
+    (insert
+     (if (string-equal caption "")
+	 (format "<figure>\n%s\n</figure>" img)
+       (format "<figure>\n%s\n%s\n</figure>" img figcaption)))))
