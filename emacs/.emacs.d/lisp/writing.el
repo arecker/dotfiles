@@ -23,13 +23,21 @@
 
 (add-hook 'text-mode-hook #'(lambda () (flyspell-mode t)))
 
+(defun recker/filename-to-alt (filename)
+  "Convert a filepath to an HTML alt attribute."
+  (let ((name (file-name-sans-extension filename))
+	(chars '(?_ ?- ?/)))
+    (dolist (char chars)
+      (setf name (subst-char-in-string char ?\s name)))
+    name))
+
 (defun recker/insert-figure (filename caption)
   "Insert an HTML figure and caption."
   (interactive "sFilename: 
 sCaption: ")
   (message "%s" caption)
   (let* ((src (format "/images/%s" filename))
-	 (alt filename)
+	 (alt (recker/filename-to-alt filename))
 	 (img (format "<a href=\"%s\">\n<img alt=\"%s\" src=\"%s\"/>\n</a>" src alt src))
 	 (figcaption (if (not (string-equal caption ""))
 			 (format "<figcaption>\n<p>%s</p>\n</figcaption>" caption))))
