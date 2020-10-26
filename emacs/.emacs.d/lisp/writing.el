@@ -23,6 +23,9 @@
 
 (add-hook 'text-mode-hook #'(lambda () (flyspell-mode t)))
 
+(use-package rst
+  :mode (("\\.rst$" . rst-mode)))
+
 (defun recker/filename-to-alt (filename)
   "Convert a filepath to an HTML alt attribute."
   (let ((name (file-name-sans-extension filename))
