@@ -5,13 +5,6 @@
   (org-mode)
   (insert "#+TITLE: Org Scratch\n\n"))
 
-(defun recker/today ()
-  "Open today's journal entry."
-  (interactive)
-  (let* ((target
-	  (recker/path 'src (format-time-string "blog/entries/%Y-%m-%d.md"))))
-    (find-file target)))
-
 (global-set-key (kbd "C-c n") 'recker/org-scratch)
 
 (global-set-key (kbd "C-c t") 'recker/today)
