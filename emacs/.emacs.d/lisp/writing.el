@@ -54,13 +54,10 @@ sCaption: ")
   (interactive)
   (let* ((target
 	  (recker/path 'src (format-time-string "blog/entries/%Y-%m-%d.md")))
-	 (frontmatter "---\ntitle:\n---\n\n")
-	 (banner-src (format-time-string "/images/banners/%Y-%m-%d.jpg"))
-	 (banner-img (format "<img alt=\"banner\" src=\"%s\"/>" banner-src))
-	 (banner-a (format "<a href=\"%s\">\n  %s\n</a>" banner-src banner-img))
-	 (banner (format "<figure>\n  %s\n</figure>\n\n" banner-a))
-	 (header (format "%s%s" frontmatter banner)))
+	 (frontmatter
+	  (format-time-string "---\ntitle:\nbanner: %Y-%m-%d.jpg\n---\n\n")))
     (if (file-exists-p target)
 	(find-file target)
       (progn (find-file target)
-	     (insert header)))))
+	     (insert frontmatter)))))
+
