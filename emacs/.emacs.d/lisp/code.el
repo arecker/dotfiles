@@ -53,6 +53,13 @@
   :init (setq emmet-preview-default nil)
   :config (add-hook 'sgml-mode-hook 'emmet-mode))
 
+(use-package go-mode
+  :ensure t
+  :defer t
+  :config (let ((govet (flycheck-checker-get 'go-vet 'command)))
+	    (when (equal (cadr govet) "tool")
+	      (setf (cdr govet) (cddr govet)))))
+
 (setq js-indent-level 2)
 
 (use-package jsonnet-mode
