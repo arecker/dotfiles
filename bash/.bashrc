@@ -11,9 +11,9 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 # functions
 docs_path() {
     if [ "$(uname)" == "Darwin" ]; then
-	echo "$HOME/Documents"
+        echo "$HOME/Documents"
     else
-	echo "$HOME/docs"
+        echo "$HOME/docs"
     fi
 }
 
@@ -25,6 +25,7 @@ is_mac() {
 alias blog='PYTHONPATH="$HOME/src/blog" python -m src'
 alias be="bundle exec"
 alias wallpaper="~/src/wallpaper/wallpaper"
+alias plexbot="reckerbot --user '#plex'"
 alias aws-whoami="aws sts get-caller-identity | jq -r '.Arn'"
 if [ "$(uname)" != "Darwin" ]; then
     alias ls="ls --color"
