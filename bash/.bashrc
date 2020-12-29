@@ -84,6 +84,7 @@ fi
 
 # kubernetes
 export KUBECONFIG="$(docs_path)/configs/kube.yml"
+export PATH="$PATH:/usr/local/kubebuilder/bin"
 
 # local bin
 export PATH="$HOME/bin:$PATH"
