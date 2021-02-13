@@ -7,7 +7,7 @@ log() {
 sync() {
     if [ -d "$1" ]; then
         log "syncing $1"
-        "$HOME/bin/git-sync" -d "$1" > /dev/null
+        "$HOME/bin/git-sync" -X theirs -d "$1" > /dev/null
     else
         log "$1 doesn't exist, skipping"
     fi
