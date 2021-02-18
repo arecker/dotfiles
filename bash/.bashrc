@@ -43,6 +43,11 @@ if [ -d "$HOME/.pyenv" ]; then
     eval "$(pyenv virtualenv-init -)"
 fi
 
+# poetry
+if [ -d "$HOME/.poetry/bin" ]; then
+    export PATH="$HOME/.poetry/bin:$PATH"
+fi
+
 # rbenv
 if [ -d "$HOME/.rbenv" ]; then
     export PATH="$HOME/.rbenv/bin:$PATH"
