@@ -96,6 +96,10 @@ if [ "$(uname)" == "Darwin" ]; then
     test -f /usr/local/opt/asdf/asdf.sh && . /usr/local/opt/asdf/asdf.sh
 fi
 
+# use GNU bin, if it exists
+if [ -d "/usr/local/opt/findutils/libexec/gnubin/" ]; then
+    PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
+fi
 
 # local bin
 export PATH="$HOME/bin:$PATH"
