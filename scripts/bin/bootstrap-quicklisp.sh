@@ -15,6 +15,8 @@ log "downloading quicklisp library"
 curl -s -o /tmp/quicklisp.lisp https://beta.quicklisp.org/quicklisp.lisp
 
 log "running quicklisp installer"
-sbcl --load /tmp/quicklisp.lisp --eval '(quicklisp-quickstart:install :path "~/.quicklisp/")'
+sbcl --load /tmp/quicklisp.lisp \
+     --eval '(quicklisp-quickstart:install :path "~/.quicklisp/")' \
+     --quit
 
 log "finished!"

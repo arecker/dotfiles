@@ -8,9 +8,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     jq \
     make \
     man \
+    nano \
+    sbcl \
     stow \
     sudo \
     tree \
+    vim \
     wget
 
 RUN useradd -m -s /bin/bash alex \
