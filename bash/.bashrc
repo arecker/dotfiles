@@ -26,6 +26,7 @@ alias blog='PYTHONPATH="$HOME/src/blog" python -m src'
 alias be="bundle exec"
 alias wallpaper="~/src/wallpaper/wallpaper"
 alias plexbot="reckerbot --user '#plex'"
+alias demo='docker run --rm -it arecker/demo:latest'
 alias aws-whoami="aws sts get-caller-identity | jq -r '.Arn'"
 if [ "$(uname)" != "Darwin" ]; then
     alias ls="ls --color"
