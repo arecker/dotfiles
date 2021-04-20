@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 set -e
+set -x
 
+VERSION_EMACS=""
 VERSION_PYTHON="3.9.4"
 VERSION_RUBY="3.0.1"
 
 log() {
     local msg="$(echo $1 | sed "s|${HOME}|~|g")"
     echo "bootstrap.sh: $msg" 1>&2
+}
+
+reload() {
+    . "$HOME/.bashrc"
 }
 
 dir_exists() {
@@ -20,12 +26,12 @@ is_mac() {
 in_screen_session() {
     local name="$1"
     local cmd="$2"
-    screen -S "$name" -dm bash -c "${cmd}" > /dev/null 2>&1
+    screen -S "$name" -dm bash -c "${cmd}"
 }
 
 bootstrap_packages() {
     local bootstrap_deps="
-screen curl
+screen curl unzip
 "
     local lisp_deps="
 sbcl clisp
@@ -45,14 +51,14 @@ xz-utils tk-dev libffi-dev liblzma-dev
         log "packages - nothing to do for mac"
     else
         log "packages - refreshing list"
-        sudo apt-get update > /dev/null 2>&1
+        sudo apt-get update
         log "packages - installing APT packages"
         sudo apt-get install -y \
              $bootstrap_deps \
              $lisp_deps \
              $rbenv_deps \
              $pyenv_deps \
-             > /dev/null 2>&1
+
     fi
 }
 
@@ -70,8 +76,7 @@ bootstrap_lisp() {
         log "lisp - running quicklisp installer"
         sbcl --load "$quicklisp_dst" \
              --eval "$quicklisp_cmd" \
-             --quit > /dev/null 2>&1
-        log "lisp - finished!"
+             --quit
     fi
 }
 
@@ -85,16 +90,22 @@ bootstrap_python() {
         log "python - $pyenv_dir already exists, nothing to do!"
     else
         log "python - cloning pyenv library"
-        git clone "${pyenv_url}.git" "$pyenv_dir" > /dev/null 2>&1
+        git clone "${pyenv_url}.git" "$pyenv_dir"
         log "python - cloning pyenv dependencies"
         for dep in doctor installer update virtualenv which-ext; do
             git clone \
                 "${pyenv_url}-${dep}.git" \
-                "${pyenv_dir}/plugins/pyenv-${dep}" > /dev/null 2>&1
+                "${pyenv_dir}/plugins/pyenv-${dep}"
         done
-        log "python - installing v${VERSION_PYTHON} (background)"
-        in_screen_session "bootstrap-python" "${pyenv_cmd}"
+        log "python - installing v${VERSION_PYTHON}"
+        eval "${pyenv_cmd}"
+        reload
+        log "python - installing poetry"
+        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
     fi
+
+    log "python - installing pip packages"
+    pip install --upgrade pip awscli
 }
 
 bootstrap_ruby() {
@@ -107,13 +118,34 @@ bootstrap_ruby() {
         log "ruby - $rbenv_dir already exists, nothing to do!"
     else
         log "ruby - cloning rbenv library"
-        git clone "${rbenv_url}.git" "$rbenv_dir" > /dev/null 2>&1
+        git clone "${rbenv_url}.git" "$rbenv_dir"
         log "ruby - cloning rbenv dependencies"
         git clone \
             "git://github.com/rbenv/ruby-build" \
-            "${rbenv_dir}/plugins/ruby-build" > /dev/null 2>&1
-        log "ruby - installing v${VERSION_RUBY} (background)"
-        in_screen_session "bootstrap-ruby" "${rbenv_cmd}"
+            "${rbenv_dir}/plugins/ruby-build"
+        log "ruby - installing v${VERSION_RUBY}"
+        eval "${rbenv_cmd}"
+        reload
+    fi
+
+    log "ruby - installing ruby gems"
+    gem install bundler pry jekyll
+}
+
+bootstrap_terraform() {
+    local tfenv_dir="$HOME/.tfenv"
+    local tfenv_bin="${tfenv_dir}/bin/tfenv"
+    local tfenv_url="git://github.com/tfutils/tfenv"
+    local tfenv_cmd="${tfenv_bin} install latest"
+
+    if dir_exists "$tfenv_dir"; then
+        log "terraform - $tfenv_dir already exists, nothing to do!"
+    else
+        log "terraform - cloning tfenv library"
+        git clone "${tfenv_url}.git" "$tfenv_dir"
+        log "terraform - cloning tfenv dependencies"
+        log "terraform - installing latest terraform"
+        eval "${tfenv_cmd}"
     fi
 }
 
@@ -121,3 +153,4 @@ bootstrap_packages
 bootstrap_lisp
 bootstrap_python
 bootstrap_ruby
+bootstrap_terraform

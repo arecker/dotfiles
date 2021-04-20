@@ -67,7 +67,9 @@ if [ -d "$HOME/.tfenv/bin" ]; then
 fi
 
 # ssh
-ssh-add -K ~/.ssh/personal 2>/dev/null
+if [ -f "$HOME/.ssh/personal" ]; then
+    ssh-add -K "$HOME/.ssh/personal" 2>/dev/null
+fi
 if [ -f "$HOME/.ssh/work/id_rsa" ]; then
     ssh-add -K "$HOME/.ssh/work/id_rsa" 2>/dev/null
 fi

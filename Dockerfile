@@ -12,4 +12,3 @@ USER alex
 WORKDIR /home/alex
 
 RUN rm /home/alex/.bashrc /home/alex/.profile
-RUN cd /home/alex/src/dotfiles && make
