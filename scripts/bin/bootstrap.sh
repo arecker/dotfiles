@@ -172,8 +172,8 @@ bootstrap_emacs() {
 }
 
 bootstrap_packages
-# bootstrap_lisp
-# bootstrap_python
-# bootstrap_ruby
-# bootstrap_terraform
+bootstrap_lisp
+bootstrap_python
+bootstrap_ruby
+bootstrap_terraform
 bootstrap_emacs
