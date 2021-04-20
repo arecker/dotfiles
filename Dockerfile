@@ -1,20 +1,6 @@
 FROM debian:stable
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    bash \
-    curl \
-    dnsutils \
-    git \
-    jq \
-    make \
-    man \
-    nano \
-    sbcl \
-    stow \
-    sudo \
-    tree \
-    vim \
-    wget
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y make stow sudo
 
 RUN useradd -m -s /bin/bash alex \
     && echo "alex ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/me
@@ -27,4 +13,3 @@ WORKDIR /home/alex
 
 RUN rm /home/alex/.bashrc /home/alex/.profile
 RUN cd /home/alex/src/dotfiles && make
-RUN echo 'export PS1="\$ "' >> /home/alex/.bashrc
