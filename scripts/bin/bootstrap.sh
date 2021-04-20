@@ -2,7 +2,7 @@
 set -e
 set -x
 
-VERSION_EMACS=""
+VERSION_EMACS="emacs-27"
 VERSION_PYTHON="3.9.4"
 VERSION_RUBY="3.0.1"
 
@@ -31,7 +31,7 @@ in_screen_session() {
 
 bootstrap_packages() {
     local bootstrap_deps="
-screen curl unzip
+screen curl unzip build-essential git
 "
     local lisp_deps="
 sbcl clisp
@@ -149,8 +149,31 @@ bootstrap_terraform() {
     fi
 }
 
+bootstrap_emacs() {
+    local emacs_src="$HOME/src/emacs"
+    local emacs_url="https://git.savannah.gnu.org/git/emacs.git"
+
+    mkdir -p "$HOME/src"
+
+    if dir_exists "$emacs_src"; then
+        log "emacs - source cloned, nothing to do!"
+    else
+        if is_mac; then
+            log "emacs - mac, nothing to do!"
+        else
+            log "emacs - installing dependencies"
+            sudo apt build-dep -y emacs25
+            log "emacs - cloning source"
+            git clone --depth 1 --branch "$VERSION_EMACS" "$emacs_url" "$emacs_src"
+            log "emacs - compiling source"
+            eval "$HOME/bin/emacs-build.sh $VERSION_EMACS"
+        fi
+    fi
+}
+
 bootstrap_packages
-bootstrap_lisp
-bootstrap_python
-bootstrap_ruby
-bootstrap_terraform
+# bootstrap_lisp
+# bootstrap_python
+# bootstrap_ruby
+# bootstrap_terraform
+bootstrap_emacs
