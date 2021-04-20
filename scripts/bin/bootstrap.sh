@@ -78,7 +78,7 @@ bootstrap_lisp() {
 bootstrap_python() {
     local pyenv_dir="$HOME/.pyenv"
     local pyenv_bin="${pyenv_dir}/bin/pyenv"
-    local pyenv_url="https://github.com/pyenv/pyenv"
+    local pyenv_url="git://github.com/pyenv/pyenv"
     local pyenv_cmd="${pyenv_bin} install ${VERSION_PYTHON} && ${pyenv_bin} global ${VERSION_PYTHON}"
 
     if dir_exists "$pyenv_dir"; then
@@ -100,7 +100,7 @@ bootstrap_python() {
 bootstrap_ruby() {
     local rbenv_dir="$HOME/.rbenv"
     local rbenv_bin="${rbenv_dir}/bin/rbenv"
-    local rbenv_url="https://github.com/rbenv/rbenv"
+    local rbenv_url="git://github.com/rbenv/rbenv"
     local rbenv_cmd="${rbenv_bin} install ${VERSION_RUBY} && ${rbenv_bin} global ${VERSION_RUBY}"
 
     if dir_exists "$rbenv_dir"; then
@@ -110,8 +110,8 @@ bootstrap_ruby() {
         git clone "${rbenv_url}.git" "$rbenv_dir" > /dev/null 2>&1
         log "ruby - cloning rbenv dependencies"
         git clone \
-            "${rbenv_url}-build.git" \
-            "${rbenv_dir}/plugins/rbenv-build" > /dev/null 2>&1
+            "git://github.com/rbenv/ruby-build" \
+            "${rbenv_dir}/plugins/ruby-build" > /dev/null 2>&1
         log "ruby - installing v${VERSION_RUBY} (background)"
         in_screen_session "bootstrap-ruby" "${rbenv_cmd}"
     fi
