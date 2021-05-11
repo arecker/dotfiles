@@ -90,10 +90,6 @@ if [ "$(uname)" == "Darwin" ]; then
     export PATH="/usr/local/sbin:$PATH"
 fi
 
-# kubernetes
-export KUBECONFIG="$(docs_path)/configs/kube.yml"
-export PATH="$PATH:/usr/local/kubebuilder/bin"
-
 # asdf
 if [ "$(uname)" == "Darwin" ]; then
     test -f /usr/local/opt/asdf/asdf.sh && . /usr/local/opt/asdf/asdf.sh
