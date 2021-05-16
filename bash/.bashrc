@@ -21,8 +21,11 @@ is_mac() {
     [[ "$(uname)" == "Darwin" ]]
 }
 
+# blog
+export BLOG_PATH="$HOME/src/blog"
+export PATH="$BLOG_PATH/bin:$PATH"
+
 # aliases
-alias blog='PYTHONPATH="$HOME/src/blog" python -m src'
 alias be="bundle exec"
 alias wallpaper="~/src/wallpaper/wallpaper"
 alias plexbot="reckerbot --user '#plex'"
@@ -97,7 +100,7 @@ fi
 
 # use GNU bin, if it exists
 if [ -d "/usr/local/opt/findutils/libexec/gnubin/" ]; then
-    PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
+    export PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
 fi
 
 # local bin
