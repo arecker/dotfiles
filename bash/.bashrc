@@ -23,6 +23,9 @@ is_mac() {
 
 # blog
 export BLOG_PATH="$HOME/src/blog"
+if is_mac; then
+    export BLOG_SED="gsed"
+fi
 export PATH="$BLOG_PATH/bin:$PATH"
 
 # aliases
