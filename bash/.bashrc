@@ -34,6 +34,7 @@ alias wallpaper="~/src/wallpaper/wallpaper"
 alias plexbot="reckerbot --user '#plex'"
 alias demo='docker run --rm -it arecker/demo:latest'
 alias aws-whoami="aws sts get-caller-identity | jq -r '.Arn'"
+alias aws-local='aws --profile local --endpoint-url http://localhost:4566/'
 if [ "$(uname)" != "Darwin" ]; then
     alias ls="ls --color"
 else
