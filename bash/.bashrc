@@ -39,10 +39,12 @@ else
     alias sed='gsed'
 fi
 
-# pyenv
+# python
+export WORKON_HOME="$HOME/.virtualenvs"
 if [ -d "$HOME/.pyenv" ]; then
-    export PATH="$HOME/.pyenv/bin:$PATH"
-    export WORKON_HOME="$HOME/.virtualenvs"
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init --path)"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 fi
