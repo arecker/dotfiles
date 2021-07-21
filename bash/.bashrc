@@ -107,3 +107,7 @@ fi
 
 # local bin
 export PATH="$HOME/bin:$PATH"
+
+if [ -f "$HOME/bin/bashrc-work" ]; then
+    source "$HOME/bin/bashrc-work"
+fi
