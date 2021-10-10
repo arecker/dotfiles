@@ -22,8 +22,7 @@ is_mac() {
 }
 
 # blog
-alias blog='cd $HOME/src/blog/ && bundle exec blog'
-alias b="cd $HOME/src/blog && python -m newsrc"
+alias b="cd $HOME/src/blog && python -m src"
 
 # aliases
 alias be="bundle exec"
