@@ -85,10 +85,10 @@ if [ -d "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/" ]; then
     . /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc
 fi
 
-# GOLANG
-export GOROOT="/usr/local/go"
-export GOPATH="$HOME/go"
-export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
+if is_mac; then
+    alias make='gmake'
+    alias find='gfind'
+fi
 
 # hack for openvpn installed by homebrew
 if [ "$(uname)" == "Darwin" ]; then
@@ -100,14 +100,11 @@ if [ "$(uname)" == "Darwin" ]; then
     test -f /usr/local/opt/asdf/asdf.sh && . /usr/local/opt/asdf/asdf.sh
 fi
 
-# use GNU bin, if it exists
-if [ -d "/usr/local/opt/findutils/libexec/gnubin/" ]; then
-    export PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
-fi
-
 # local bin
 export PATH="$HOME/bin:$PATH"
 
 if [ -f "$HOME/bin/bashrc-work" ]; then
     source "$HOME/bin/bashrc-work"
 fi
+
+alias rund="cd ~/src/run; python -m run --config ~/src/run/blog.conf "
