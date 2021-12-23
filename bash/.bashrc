@@ -22,7 +22,7 @@ is_mac() {
 }
 
 # blog
-alias b="cd $HOME/src/blog && python -m src"
+alias b="cd $HOME/src/blog && python -m blog"
 
 # aliases
 alias be="bundle exec"
@@ -77,6 +77,13 @@ if [ -f "$HOME/.ssh/personal" ]; then
 fi
 if [ -f "$HOME/.ssh/work/id_rsa" ]; then
     ssh-add -K "$HOME/.ssh/work/id_rsa" 2>/dev/null
+fi
+
+# go
+if is_mac; then
+    export GOPATH="$HOME/src"
+    export GOROOT="$(brew --prefix golang)/libexec"
+    export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 fi
 
 # gcloud
