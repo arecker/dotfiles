@@ -26,17 +26,13 @@ alias b="cd $HOME/src/blog && python -m blog"
 
 # aliases
 alias be="bundle exec"
-alias wallpaper="~/src/wallpaper/wallpaper"
+alias k='kubectl'
 alias plexbot="reckerbot --user '#plex'"
-alias demo='docker run --rm -it arecker/demo:latest'
 alias aws-whoami="aws sts get-caller-identity | jq -r '.Arn'"
 alias aws-local='aws --profile local --endpoint-url http://localhost:4566/'
-if [ "$(uname)" != "Darwin" ]; then
+
+if ! is_mac; then
     alias ls="ls --color"
-else
-    alias quickkill='kill -9 $(pgrep -i "Quicktime")'
-    alias make='gmake'
-    alias sed='gsed'
 fi
 
 # python
@@ -80,21 +76,16 @@ if [ -f "$HOME/.ssh/work/id_rsa" ]; then
 fi
 
 # go
-if is_mac; then
-    export GOPATH="$HOME/src"
-    export GOROOT="$(brew --prefix golang)/libexec"
-    export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
-fi
+# if is_mac; then
+#     export GOPATH="$HOME/src"
+#     export GOROOT="$(brew --prefix golang)/libexec"
+#     export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+# fi
 
 # gcloud
 if [ -d "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/" ]; then
     . /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc
     . /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc
-fi
-
-if is_mac; then
-    alias make='gmake'
-    alias find='gfind'
 fi
 
 # hack for openvpn installed by homebrew
@@ -113,5 +104,3 @@ export PATH="$HOME/bin:$PATH"
 if [ -f "$HOME/bin/bashrc-work" ]; then
     source "$HOME/bin/bashrc-work"
 fi
-
-alias rund="cd ~/src/run; python -m run --config ~/src/run/blog.conf "
