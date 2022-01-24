@@ -3,7 +3,7 @@ set -e
 
 cd ~/src/blog
 
-python -m blog jenkins \
+python -m src jenkins \
        --netlify-token "$(pass netlify/jenkins)" \
        --slack-webhook-urls "$(pass slack/reckers/webhook)" \
        --twitter-consumer-api-key "$(pass twitter/reckerbot/consumer-api-key)" \
