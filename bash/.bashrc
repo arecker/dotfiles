@@ -76,11 +76,11 @@ if [ -f "$HOME/.ssh/work/id_rsa" ]; then
 fi
 
 # go
-# if is_mac; then
-#     export GOPATH="$HOME/src"
-#     export GOROOT="$(brew --prefix golang)/libexec"
-#     export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
-# fi
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
 
 # gcloud
 if [ -d "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/" ]; then
