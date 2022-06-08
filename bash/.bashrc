@@ -75,13 +75,6 @@ if [ -f "$HOME/.ssh/work/id_rsa" ]; then
     ssh-add -K "$HOME/.ssh/work/id_rsa" 2>/dev/null
 fi
 
-# go
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
-eval "$(goenv init -)"
-export PATH="$GOROOT/bin:$PATH"
-export PATH="$PATH:$GOPATH/bin"
-
 # gcloud
 if [ -d "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/" ]; then
     . /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc
@@ -97,6 +90,13 @@ fi
 if [ "$(uname)" == "Darwin" ]; then
     test -f /usr/local/opt/asdf/asdf.sh && . /usr/local/opt/asdf/asdf.sh
 fi
+
+# GO
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
 
 # local bin
 export PATH="$HOME/bin:$PATH"
