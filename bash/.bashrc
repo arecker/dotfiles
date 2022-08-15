@@ -79,16 +79,12 @@ fi
 if [ -d "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/" ]; then
     . /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc
     . /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc
+    export CLOUDSDK_PYTHON="$HOME/.pyenv/versions/2.7.17/bin/python"
 fi
 
 # hack for openvpn installed by homebrew
 if [ "$(uname)" == "Darwin" ]; then
     export PATH="/usr/local/sbin:$PATH"
-fi
-
-# asdf
-if [ "$(uname)" == "Darwin" ]; then
-    test -f /usr/local/opt/asdf/asdf.sh && . /usr/local/opt/asdf/asdf.sh
 fi
 
 # GO
@@ -98,9 +94,15 @@ eval "$(goenv init -)"
 export PATH="$GOROOT/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin"
 
+# Rust
+if [ -d "$HOME/.cargo/env" ]; then
+    . "$HOME/.cargo/env"
+fi
+
 # local bin
 export PATH="$HOME/bin:$PATH"
 
 if [ -f "$HOME/bin/bashrc-work" ]; then
     source "$HOME/bin/bashrc-work"
 fi
+
