@@ -103,6 +103,8 @@ fi
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
+alias pyenv-install-global-locally="cp $HOME/.pyenv/version ./.python-version"
+
 if [ -f "$HOME/bin/bashrc-work" ]; then
     source "$HOME/bin/bashrc-work"
 fi
