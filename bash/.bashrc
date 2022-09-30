@@ -1,28 +1,10 @@
-# history
 export HISTSIZE="500"
 export HISTFILE="$HOME/.bash_history"
-
-export EDITOR="nano"
 export PS1="\u@\h:\w\$ "
-
-# Fuck you, apple.
-export BASH_SILENCE_DEPRECATION_WARNING=1
-
-# functions
-docs_path() {
-    if [ "$(uname)" == "Darwin" ]; then
-        echo "$HOME/Documents"
-    else
-        echo "$HOME/docs"
-    fi
-}
 
 is_mac() {
     [[ "$(uname)" == "Darwin" ]]
 }
-
-# blog
-alias b="cd $HOME/src/blog && python -m src"
 
 # aliases
 alias be="bundle exec"
@@ -34,6 +16,12 @@ alias aws-local='aws --profile local --endpoint-url http://localhost:4566/'
 if ! is_mac; then
     alias ls="ls --color"
 fi
+
+# emacs
+if is_mac; then
+    export PATH="/Applications/Emacs.app/Contents/MacOS/bin/:$PATH"
+fi
+export EDITOR="emacsclient"
 
 # python
 export WORKON_HOME="$HOME/.virtualenvs"
