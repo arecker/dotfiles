@@ -11,7 +11,3 @@ restow :
 .PHONY : unstow
 unstow :
 	stow --target $(HOME) --verbose --delete $(stow_dirs)
-
-.PHONY: demo
-demo:
-	@docker build -t 'arecker/demo:latest' .
