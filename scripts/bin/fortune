@@ -5,7 +5,7 @@ import random
 
 
 def main():
-    target = pathlib.Path('~/src/blog/data/quotes.json').expanduser()
+    target = pathlib.Path('~/.quotes.json').expanduser()
     with target.open('r') as f:
         quotes = json.load(f)
     author, text = random.choice(quotes)
