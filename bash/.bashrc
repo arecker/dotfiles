@@ -1,6 +1,6 @@
 export HISTSIZE="500"
 export HISTFILE="$HOME/.bash_history"
-export PS1="\u@\h:\w\$ "
+export PS1="\u@localhost:\w\$ "
 
 is_mac() {
     [[ "$(uname)" == "Darwin" ]]
@@ -15,6 +15,11 @@ alias aws-local='aws --profile local --endpoint-url http://localhost:4566/'
 
 if ! is_mac; then
     alias ls="ls --color"
+fi
+
+# add homebrew path
+if [ -d "/opt/homebrew/bin" ]; then
+    export PATH="/opt/homebrew/bin:$PATH"
 fi
 
 # emacs
