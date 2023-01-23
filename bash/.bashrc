@@ -20,6 +20,7 @@ fi
 # add homebrew path
 if [ -d "/opt/homebrew/bin" ]; then
     export PATH="/opt/homebrew/bin:$PATH"
+    export PATH="/opt/homebrew/opt/openjdk/bin:$PATH" # prefer brew java over system
 fi
 
 # emacs
@@ -61,8 +62,8 @@ if [ -d "$HOME/.tfenv/bin" ]; then
 fi
 
 # ssh
-if [ -f "$HOME/.ssh/personal" ]; then
-    ssh-add -K "$HOME/.ssh/personal" 2>/dev/null
+if [ -f "$HOME/.ssh/id_rsa" ]; then
+    ssh-add -K "$HOME/.ssh/id_rsa" 2>/dev/null
 fi
 if [ -f "$HOME/.ssh/work/id_rsa" ]; then
     ssh-add -K "$HOME/.ssh/work/id_rsa" 2>/dev/null
@@ -72,7 +73,6 @@ fi
 if [ -d "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/" ]; then
     . /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc
     . /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc
-    export CLOUDSDK_PYTHON="$HOME/.pyenv/versions/2.7.17/bin/python"
 fi
 
 # hack for openvpn installed by homebrew
