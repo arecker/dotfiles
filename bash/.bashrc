@@ -101,3 +101,5 @@ alias pyenv-install-global-locally="cp $HOME/.pyenv/version ./.python-version"
 if [ -f "$HOME/bin/bashrc-work" ]; then
     source "$HOME/bin/bashrc-work"
 fi
+
+cowsay "$(fortune)" || cowsay "Warning: cowsay is not installed!"
