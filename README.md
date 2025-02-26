@@ -16,11 +16,8 @@ From this directory, run `make` to create all the symlinks.
 arecker@localhost:~/src/dotfiles$ make
 stow --target /Users/arecker --verbose ansible/ scripts/
 LINK: .ansible.cfg => src/dotfiles/ansible/.ansible.cfg
-LINK: bin/check-dotfiles => ../src/dotfiles/scripts/bin/check-dotfiles
 ...
 ```
-
-Open a new shell and run `bootstrap`.  The script will complain if there is something missing, so just keep fixing and re-running until you get a clean exit.
 
 ### Lisp
 
