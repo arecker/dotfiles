@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-VAULT_ADDR="http://vault.local" vault "$@"

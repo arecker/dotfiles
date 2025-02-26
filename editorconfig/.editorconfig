@@ -13,9 +13,12 @@ indent_style = space
 indent_style = space
 indent_size = 4
 
+[*.md]
+indent_style = space
+
 [Makefile]
-tab_width = 2
 indent_style = tab
+indent_size = 8
 
 [*.{jsonnet,libsonnet}]
 indent_style = space

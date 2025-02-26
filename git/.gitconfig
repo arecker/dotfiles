@@ -1,9 +1,9 @@
 [user]
-	name = Alex Recker
-	email = alex@reckerfamily.com
-	signingkey = alex@reckerfamily.com
+        name = Alex Recker
+        email = alex@reckerfamily.com
+        signingkey = alex@reckerfamily.com
 [commit]
-	gpgsign = true
+        gpgsign = true
 
 [includeIf "gitdir:~/src/work/"]
   path = .gitconfig-work
