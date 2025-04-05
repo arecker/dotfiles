@@ -45,9 +45,8 @@ fi
 
 # asdf
 export ASDF_GOLANG_MOD_VERSION_ENABLED=true
-if [ -d "$HOME/.asdf" ]; then
+if [ -f "$HOME/.asdf/asdf.sh" ]; then
     . "$HOME/.asdf/asdf.sh"
-    . "$HOME/.asdf/completions/asdf.bash"
 fi
 
 # hack for openvpn installed by homebrew
