@@ -1,3 +1,6 @@
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
 export HISTSIZE="500"
 export HISTFILE="$HOME/.bash_history"
 export PS1="\u@localhost:\w\$ "
@@ -31,9 +34,14 @@ if is_mac; then  # the emacsclient binary is buried somewhere in the EmacsForOSX
     else
         export PATH="/Applications/Emacs.app/Contents/MacOS/bin-x86_64-10_14/:$PATH"
     fi
+    export GPG_TTY=$(tty)
 fi
 export EDITOR="emacsclient"
-export GPG_TTY=$(tty)
+
+# homebrew (on linux)
+if [ -d "/home/linuxbrew/.linuxbrew" ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 
 # asdf
 export ASDF_GOLANG_MOD_VERSION_ENABLED=true
