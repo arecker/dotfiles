@@ -48,6 +48,7 @@ export ASDF_GOLANG_MOD_VERSION_ENABLED=true
 if [ -f "$HOME/.asdf/asdf.sh" ]; then
     . "$HOME/.asdf/asdf.sh"
 fi
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 # hack for openvpn installed by homebrew
 if [ "$(uname)" == "Darwin" ]; then
@@ -58,9 +59,7 @@ fi
 export PATH="$HOME/bin:$PATH"
 
 # mixtape
-if [ -d "$HOME/src/mixtape/bin" ]; then
-    export PATH="$HOME/src/mixtape/bin:$PATH"
-fi
+alias mixtape="$HOME/src/mixtape/venv/bin/mixtape"
 
 # Load work stuff
 if [ -f "$HOME/bin/bashrc-work" ]; then
