@@ -1,6 +1,3 @@
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
-
 export HISTSIZE="500"
 export HISTFILE="$HOME/.bash_history"
 export PS1="\u@localhost:\w\$ "
