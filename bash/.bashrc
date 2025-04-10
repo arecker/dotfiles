@@ -18,6 +18,9 @@ if ! is_mac; then
     alias ls="ls --color"
 fi
 
+# SHUT UP APPLE
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 # add homebrew path
 if [ -d "/opt/homebrew/bin" ]; then
     export PATH="/opt/homebrew/bin:$PATH"
