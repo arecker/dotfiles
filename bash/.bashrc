@@ -61,6 +61,9 @@ export PATH="$HOME/bin:$PATH"
 # mixtape
 alias mixtape="$HOME/src/mixtape/venv/bin/mixtape"
 
+# fortune
+export PATH="$HOME/src/fortune/:$PATH"
+
 # Load work stuff
 if [ -f "$HOME/bin/bashrc-work" ]; then
     source "$HOME/bin/bashrc-work"
