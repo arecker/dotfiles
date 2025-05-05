@@ -58,6 +58,11 @@ fi
 # local bin
 export PATH="$HOME/bin:$PATH"
 
+# merge ~/.gemrc with ~/.gemrc.local if it exists
+if [ -f "${HOME}/.gemrc.local" ]; then
+    export GEMRC="${HOME}/.gemrc.local"
+fi
+
 # mixtape
 alias mixtape="$HOME/src/mixtape/venv/bin/mixtape"
 
