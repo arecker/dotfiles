@@ -1,0 +1,61 @@
+#!/usr/bin/env python
+import subprocess
+import sys
+
+def run_command(cmd):
+    """Run a command and return the output."""
+    result = subprocess.run(cmd, shell=True, text=True, capture_output=True)
+    if result.stderr:
+        print(result.stderr, file=sys.stderr)
+    return result.stdout.strip()
+
+def count_items(command):
+    """Count items from a Docker command that returns one item per line."""
+    output = run_command(command)
+    if not output:
+        return 0
+    return len(output.split('\n'))
+
+def docker_purge():
+    """Purge all Docker resources and report summary only."""
+    # Get initial counts
+    containers_before = count_items("docker ps -a -q")
+    images_before = count_items("docker images -q")
+    networks_before = count_items("docker network ls -q")
+    volumes_before = count_items("docker volume ls -q")
+
+    # Stop and remove all containers
+    if containers_before > 0:
+        run_command("docker stop $(docker ps -a -q 2>/dev/null) 2>/dev/null || true")
+        run_command("docker rm $(docker ps -a -q 2>/dev/null) 2>/dev/null || true")
+        print(f"Stopped and removed {containers_before} containers", file=sys.stderr)
+    else:
+        print("No containers to remove", file=sys.stderr)
+
+    # Remove all images
+    if images_before > 0:
+        run_command("docker rmi $(docker images -q 2>/dev/null) -f 2>/dev/null || true")
+        print(f"Removed {images_before} images", file=sys.stderr)
+    else:
+        print("No images to remove", file=sys.stderr)
+
+    # Prune networks and volumes
+    run_command("docker system prune -a --volumes -f >/dev/null 2>&1")
+
+    # Get final counts
+    networks_after = count_items("docker network ls -q")
+    volumes_after = count_items("docker volume ls -q")
+
+    # Report network and volume changes
+    networks_pruned = networks_before - networks_after
+    if networks_pruned > 0:
+        print(f"Pruned {networks_pruned} networks", file=sys.stderr)
+
+    volumes_pruned = volumes_before - volumes_after
+    if volumes_pruned > 0:
+        print(f"Pruned {volumes_pruned} volumes", file=sys.stderr)
+
+    print("Docker environment purged successfully!", file=sys.stderr)
+
+if __name__ == "__main__":
+    docker_purge()
