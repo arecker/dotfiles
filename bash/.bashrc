@@ -55,8 +55,9 @@ if [ "$(uname)" == "Darwin" ]; then
     export PATH="/usr/local/sbin:$PATH"
 fi
 
-# local bin
+# local bins
 export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # merge ~/.gemrc with ~/.gemrc.local if it exists
 if [ -f "${HOME}/.gemrc.local" ]; then
@@ -74,4 +75,7 @@ if [ -f "$HOME/bin/bashrc-work" ]; then
     source "$HOME/bin/bashrc-work"
 fi
 
-cowsay "$(fortune)" || echo "Warning: cowsay is not installed (you might literally die)"
+# Skip interactive output when running under Claude Code
+if [ -z "$CLAUDECODE" ]; then
+    cowsay "$(fortune)" || echo "Warning: cowsay is not installed (you might literally die)"
+fi
