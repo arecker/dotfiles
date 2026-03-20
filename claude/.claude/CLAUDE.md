@@ -81,6 +81,15 @@ When the user asks to create a commit or PR:
 
 The user is responsible for all commits from their machine, so treat the work as theirs.
 
+# Dotfiles Workflow
+
+The user maintains dotfiles in `~/src/dotfiles`.
+
+When working with dotfiles:
+1. Use `make stow` or `make restow` to symlink files in place after creating new files
+2. Create simple, direct commit messages for dotfiles changes
+3. **Always ask before pushing** - the user will review what's going out
+
 # Org-mode Workflow
 
 The user keeps TODOs and notes in `~/org/work.org`. When modifying these files, follow the capture templates defined in `~/.emacs.d/README.org`.
