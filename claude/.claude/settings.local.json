@@ -1,0 +1,17 @@
+{
+  "spinnerVerbs": {
+    "mode": "replace",
+    "verbs": [
+      "Prepping",
+      "Simmering",
+      "Searing",
+      "Whisking",
+      "Reducing",
+      "Plating",
+      "Seasoning",
+      "Braising",
+      "Caramelizing",
+      "Garnishing"
+    ]
+  }
+}
