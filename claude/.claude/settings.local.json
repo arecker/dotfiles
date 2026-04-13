@@ -1,4 +1,20 @@
 {
+  "permissions": {
+    "allow": [
+      "mcp__github__issue_read",
+      "mcp__emacs__getOpenBuffers",
+      "mcp__emacs__getCurrentSelection",
+      "mcp__opex__list_org_hierarchy",
+      "mcp__opex__get_incidents",
+      "mcp__opex__get_slos",
+      "mcp__opex__get_epd",
+      "mcp__github__pull_request_read",
+      "mcp__mcp-atlassian__jira_search",
+      "mcp__mcp-atlassian__jira_get_agile_boards",
+      "mcp__mcp-atlassian__jira_get_sprints_from_board",
+      "mcp__mcp-atlassian__jira_get_issue"
+    ]
+  },
   "spinnerVerbs": {
     "mode": "replace",
     "verbs": [
