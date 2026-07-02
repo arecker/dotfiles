@@ -1,6 +1,5 @@
 export HISTSIZE="500"
 export HISTFILE="$HOME/.bash_history"
-export PS1="\u@localhost:\w\$ "
 
 is_mac() {
     [[ "$(uname)" == "Darwin" ]]
@@ -9,6 +8,13 @@ is_mac() {
 is_arm() {
     [[ "$(uname -m)" == "arm64" ]]
 }
+
+# PS1
+if is_mac; then
+    export PS1="\u@localhost:\w\$ "
+else
+    export PS1="\u@\h:\w\$ "
+fi
 
 # aliases
 alias be="bundle exec"
