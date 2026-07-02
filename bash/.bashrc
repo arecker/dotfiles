@@ -81,7 +81,7 @@ if [ -f "$HOME/bin/bashrc-work" ]; then
     source "$HOME/bin/bashrc-work"
 fi
 
-# Skip interactive output when running under Claude Code
-if [ -z "$CLAUDECODE" ]; then
+# Skip interactive output when running under Claude Code or a non-interactive shell (e.g. scp/rsync)
+if [ -z "$CLAUDECODE" ] && [[ $- == *i* ]]; then
     cowsay "$(fortune)" || echo "Warning: cowsay is not installed (you might literally die)"
 fi
