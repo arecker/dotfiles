@@ -1,0 +1,9 @@
+{
+  "name": "vasa-skill",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Playwright automation for booking VASA Fitness classes and KidCare at gympayment.com",
+  "dependencies": {
+    "playwright": "^1.61.1"
+  }
+}
