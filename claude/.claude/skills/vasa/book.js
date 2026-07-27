@@ -21,24 +21,53 @@ const fs = require('fs');
 const path = require('path');
 
 const GYM_USER = process.env.GYM_USER || 'alex@reckerfamily.com';
-const LOCATION_ID = 'object:41'; // VASA Fitness Glendale Heights 1063
+const LOCATION_LABEL = 'Glendale Heights'; // matched against option text, not a hardcoded object:N value —
+// the childcare.aspx #location list doesn't include every club (not all VASA gyms offer KidCare), so the
+// same object:N token can point at a different club on classes.aspx vs childcare.aspx.
 
-const CLASS_TYPES = {
-  'studio red hiit': 'object:157',
-  'studio red': 'object:157',
-  'red hiit': 'object:157',
-  'red': 'object:157',
-  'hiit red': 'object:157',
-  'hiit': 'object:157', // Alex's "HIIT" always means STUDIO RED HIIT in practice
-  'aqua': 'object:148',
-  'cardio': 'object:149',
-  'core': 'object:150',
-  'cycle': 'object:151',
-  'resistance': 'object:153',
-  'senior': 'object:154',
-  'studio flow': 'object:155',
-  'studio lft': 'object:156',
+// Selects the <option> in `selector` whose visible text contains LOCATION_LABEL, rather than
+// trusting a hardcoded value token that may not mean the same club on every page.
+async function selectLocationByLabel(page, selector) {
+  const option = page.locator(`${selector} option`, { hasText: LOCATION_LABEL }).first();
+  const count = await option.count();
+  if (count === 0) throw new Error(`No option containing "${LOCATION_LABEL}" found in ${selector}`);
+  const label = (await option.textContent()).trim();
+  await page.selectOption(selector, { label });
+}
+
+// Maps Alex's shorthand to the class type's exact visible label in the #class-types dropdown.
+// Deliberately label-based, not object:N value-based — the site's object:N tokens shift as
+// VASA adds/reorders class types (confirmed 2026-07-27: object:157 used to be "STUDIO RED HIIT"
+// but is now the plain "HIIT" class type; real STUDIO RED HIIT moved to object:162). Matching
+// on label text sidesteps that drift entirely.
+const CLASS_ALIASES = {
+  'studio red hiit': 'STUDIO RED HIIT',
+  'studio red': 'STUDIO RED HIIT',
+  'red hiit': 'STUDIO RED HIIT',
+  'red': 'STUDIO RED HIIT',
+  'hiit red': 'STUDIO RED HIIT',
+  'hiit': 'STUDIO RED HIIT', // Alex's "HIIT" always means STUDIO RED HIIT, NOT the site's separate plain "HIIT" class type
+  'aqua': 'Aqua',
+  'cardio': 'Cardio',
+  'core': 'Core',
+  'cycle': 'Cycle',
+  'resistance': 'Resistance',
+  'senior': 'Senior',
+  'studio flow': 'STUDIO FLOW',
+  'studio lft': 'STUDIO LFT',
 };
+
+// Selects the <option> in `selector` whose visible text exactly equals `label` (after trimming).
+// Exact match matters here specifically because "HIIT" is a substring of "STUDIO RED HIIT" —
+// a hasText/substring match (fine for the location dropdown) would be ambiguous for class types.
+async function selectOptionByExactLabel(page, selector, label) {
+  const value = await page.locator(selector).evaluate((el, targetLabel) => {
+    const opt = Array.from(el.options).find(o => o.text.trim() === targetLabel);
+    return opt ? opt.value : null;
+  }, label);
+  if (!value) throw new Error(`No option with exact label "${label}" found in ${selector}`);
+  await page.selectOption(selector, value);
+}
 
 const OUT_DIR = process.env.VASA_OUT_DIR || '/tmp/vasa-book';
 
@@ -53,6 +82,7 @@ function parseArgs(argv) {
     else if (a === '--class') args.class = argv[++i];
     else if (a === '--kidcare') args.kidcare = argv[++i];
     else if (a === '--kidcare-duration') args.kidcareDuration = argv[++i];
+    else if (a === '--station') args.station = argv[++i];
   }
   return args;
 }
@@ -129,7 +159,7 @@ async function selectClassDate(page, isoDate) {
 // Picks a station in the open #stationsModal: prefer a Treadmill if one's free, and
 // among candidates prefer whichever is farthest (grid distance) from any already-booked
 // station, so Alex isn't working out shoulder-to-shoulder with a stranger.
-async function pickStation(page) {
+async function pickStation(page, requestedLabel) {
   const stations = await page.locator('#stationsModal .item-label').evaluateAll(labelNodes =>
     labelNodes.map(label => {
       const tile = label.closest('[title]');
@@ -150,6 +180,20 @@ async function pickStation(page) {
   const booked = stations.filter(s => s.booked);
   if (available.length === 0) {
     throw new Error('No available stations found in the modal — class may be effectively full.');
+  }
+
+  if (requestedLabel) {
+    const match = available.find(s => s.label.toLowerCase() === requestedLabel.trim().toLowerCase());
+    if (!match) {
+      throw new Error(`Requested station "${requestedLabel}" is not available (already booked, or no such station).`);
+    }
+    log(`Picking requested station "${match.label}"`);
+    await page.evaluate((chosenLabel) => {
+      const labelNode = Array.from(document.querySelectorAll('#stationsModal .item-label'))
+        .find(el => el.textContent.trim() === chosenLabel);
+      labelNode.closest('[title]').click();
+    }, match.label);
+    return;
   }
 
   const distanceToNearestBooked = (s) => booked.length === 0
@@ -176,9 +220,9 @@ async function pickStation(page) {
 
 async function bookClass(page, args) {
   const classKey = args.class.trim().toLowerCase();
-  const classValue = CLASS_TYPES[classKey];
-  if (!classValue) {
-    throw new Error(`Unknown class type "${args.class}". Known: ${Object.keys(CLASS_TYPES).join(', ')}`);
+  const classLabel = CLASS_ALIASES[classKey];
+  if (!classLabel) {
+    throw new Error(`Unknown class type "${args.class}". Known: ${Object.keys(CLASS_ALIASES).join(', ')}`);
   }
   if (!args.time) throw new Error('--time is required, e.g. --time "4:30 PM"');
   const isoDate = resolveDate(args.date);
@@ -187,9 +231,9 @@ async function bookClass(page, args) {
   await page.goto('https://gympayment.com/Scheduler/classes.aspx', { waitUntil: 'load', timeout: 30000 });
   await page.waitForTimeout(1500);
 
-  await page.selectOption('#clubs', LOCATION_ID);
+  await selectLocationByLabel(page, '#clubs');
   await page.waitForTimeout(1500);
-  await page.selectOption('#class-types', classValue);
+  await selectOptionByExactLabel(page, '#class-types', classLabel);
   await page.waitForTimeout(500);
   await selectClassDate(page, isoDate);
   await page.waitForTimeout(500);
@@ -236,7 +280,7 @@ async function bookClass(page, args) {
       return { status: 'paused-at-stations-modal' };
     }
 
-    await pickStation(page);
+    await pickStation(page, args.station);
     await page.waitForTimeout(500);
     await page.locator('#stationsModal button:has-text("Sign Up")').click();
     await page.waitForTimeout(1500);
@@ -257,7 +301,7 @@ async function bookKidcare(page, args) {
   await page.goto('https://gympayment.com/Scheduler/childcare.aspx', { waitUntil: 'load', timeout: 30000 });
   await page.waitForTimeout(1500);
 
-  await page.selectOption('#location', LOCATION_ID);
+  await selectLocationByLabel(page, '#location');
   await page.waitForTimeout(1500);
 
   const names = childName === 'both' ? ['rodney', 'miles'] : [childName];
