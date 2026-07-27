@@ -48,44 +48,38 @@ recommendations — it's not his whole library, don't imply it is.
 
 ## Looking up a game
 
-Steam's store API is public, no key needed:
+Use `lookup.py` for this instead of hitting each API separately — it's one
+script call instead of several separate URL permission prompts:
 
 ```
-curl -s "https://store.steampowered.com/api/appdetails?appids=<appid>"
+python3 ~/.claude/skills/steam/lookup.py "<game name or appid>"
 ```
 
-Useful fields: `genres`, `categories`, `is_free`, `required_age`,
-`content_descriptors`, `metacritic`, `release_date`, `price_overview`. Find
-the appid via a normal web search ("<game name> steam appid") or the store
-page URL (`store.steampowered.com/app/<appid>/...`).
+It resolves a name to an appid (via Steam store search, skip this by passing
+an appid directly), then prints price, genres, controller support, mature
+content notes, the store description, the review score summary, and the
+ProtonDB Deck/Linux tier — all in one shot.
 
 ## Steam Deck / Linux compatibility
 
-Two sources, use both when it matters:
-
-- Valve's own Verified/Playable/Unsupported badge — visible on the store page
-  itself.
-- ProtonDB community reports, more granular and often more current:
-
-```
-curl -s "https://www.protondb.com/api/v1/reports/summaries/<appid>.json"
-```
-
-Returns a `tier` (borked/bronze/silver/gold/platinum) and a `confidence`
-level. Platinum/Gold = don't think twice. Silver = mention the caveat.
-Bronze/Borked = say so plainly, don't bury it.
+`lookup.py`'s ProtonDB line covers this: `tier` (borked/bronze/silver/
+gold/platinum) plus a `confidence` level. Platinum/Gold = don't think twice.
+Silver = mention the caveat. Bronze/Borked = say so plainly, don't bury it.
+Valve's own Verified/Playable/Unsupported badge on the store page is worth a
+glance too when it really matters, but ProtonDB is usually enough.
 
 ## Content safety check
 
-Before recommending anything, or whenever Alex asks "is this one safe":
+Before recommending anything, or whenever Alex asks "is this one safe", run
+`lookup.py` and check:
 
-1. Pull `content_descriptors` and `required_age` from the appdetails API
-   above. `content_descriptors.notes` is Valve's own free-text mature-content
-   description — read it, don't guess at the numeric `ids`.
-2. If that's empty or ambiguous, check the store page's own "Mature Content
-   Description" section and/or do a quick web search for the game's
-   ESRB/PEGI rating and content warnings.
-3. If sexual content shows up, say so plainly and steer to an alternative
+1. `Mature content notes` — this is Valve's own free-text mature-content
+   description, straight from `content_descriptors.notes`.
+2. `Required age` — nonzero is a signal worth digging into further.
+3. If both come back empty/none but something still feels off, check the
+   store page directly and/or do a quick web search for the game's ESRB/PEGI
+   rating and content warnings — `lookup.py` isn't exhaustive.
+4. If sexual content shows up, say so plainly and steer to an alternative
    rather than soft-pedaling it.
 
 ## Other sources worth reaching for
