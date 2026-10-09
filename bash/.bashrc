@@ -61,6 +61,11 @@ if [ "$(uname)" == "Darwin" ]; then
     export PATH="/usr/local/sbin:$PATH"
 fi
 
+# another mac hack
+if is_mac; then
+    export PKG_CONFIG_PATH="/opt/homebrew/opt/libarchive/lib/pkgconfig:$PKG_CONFIG_PATH"
+fi
+
 # local bins
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
